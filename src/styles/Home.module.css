@@ -1,5 +1,12 @@
 .container {
-  padding: 0 2rem;
+  padding: 3% 25%;
+}
+
+.mainContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
 }
 
 .main {
