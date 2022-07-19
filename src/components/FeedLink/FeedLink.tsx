@@ -41,10 +41,21 @@ export const FeedLink = ({ description, url, postedBy, votes }: LinkType) => {
           </Box>
 
           <Typography variant='h5' component='div'>
-            <NextLink href={url}>{description}</NextLink>
+            <NextLink href={url}>
+              <a target='_blank' onClick={(event) => event.stopPropagation()}>
+                {description}
+              </a>
+            </NextLink>
           </Typography>
           <Box sx={{ m: 1.5 }}>
-            <Button variant='contained' size='small' onClick={handleClose}>
+            <Button
+              variant='contained'
+              size='small'
+              onClick={(event) => {
+                event.stopPropagation();
+                alert("123");
+              }}
+            >
               <ArrowUpwardIcon /> upvote
             </Button>
             <AvatarGroup total={votes?.length} max={4}>
