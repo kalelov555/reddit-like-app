@@ -1,18 +1,19 @@
 import * as React from "react";
 import { useState } from "react";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Avatar from "@mui/material/Avatar";
-import AvatarGroup from "@mui/material/AvatarGroup";
-import NextLink from "next/link";
-import { FeedLink as LinkType } from "typings/feedLink";
+import {
+  Card,
+  CardContent,
+  Button,
+  Typography,
+  Avatar,
+  AvatarGroup,
+  Box,
+} from "@mui/material";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import { Box } from "@mui/material";
 import { SimpleDialog } from "components/Dialog/Dialog";
+import { Post } from "typings/post";
 
-export const FeedLink = ({ description, url, postedBy, votes }: LinkType) => {
+export const FeedPost = ({ description, url, postedBy, votes }: Post) => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -41,11 +42,14 @@ export const FeedLink = ({ description, url, postedBy, votes }: LinkType) => {
           </Box>
 
           <Typography variant='h5' component='div'>
-            <NextLink href={url}>
-              <a target='_blank' onClick={(event) => event.stopPropagation()}>
-                {description}
-              </a>
-            </NextLink>
+            <a
+              target='_blank'
+              href={`https://${url}`}
+              onClick={(event) => event.stopPropagation()}
+              rel='noreferrer'
+            >
+              {description}
+            </a>
           </Typography>
           <Box sx={{ m: 1.5 }}>
             <Button

@@ -4,21 +4,20 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import { Navbar } from "components/Navbar/Navbar";
 import { useQuery } from "@apollo/client";
-import { GET_ALL_POSTS } from "query/links";
-import { FeedLink as Link } from "components/FeedLink/FeedLink";
+import { GET_ALL_POSTS } from "query/posts";
+import { FeedPost } from "components/FeedPost/FeedPost";
 import { Box } from "@mui/material";
 import Skeleton from "components/Skeleton/Skeleton";
-import type { FeedLink } from "typings/feedLink";
+import type { Post } from "typings/post";
 
 const Home: NextPage = () => {
-  const [links, setLinks] = useState<FeedLink[]>([]);
-  const { data, error, loading } = useQuery(GET_ALL_POSTS);
+  const [links, setLinks] = useState<Post[]>([]);
+  const { data, error, loading, refetch } = useQuery(GET_ALL_POSTS);
 
   useEffect(() => {
-    if (data) {
-      setLinks(data.feed.links);
-    }
-  }, [data]);
+    refetch(data);
+    if (data) setLinks(data.feed.links);
+  }, [data, links, refetch, setLinks]);
 
   if (loading) {
     return (
@@ -48,7 +47,7 @@ const Home: NextPage = () => {
         <Box sx={{ minWidth: 430 }}>
           {links.map((link) => {
             return (
-              <Link
+              <FeedPost
                 key={link.description}
                 description={link.description}
                 url={link.url}

@@ -5,7 +5,7 @@ import { Navbar } from "components/Navbar/Navbar";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useMutation } from "@apollo/client";
-import { CREATE_FEED_MUTATION } from "mutations/links";
+import { CREATE_FEED_MUTATION } from "mutations/posts";
 import { showNotification } from "@mantine/notifications";
 import { useRouter } from "next/router";
 
@@ -17,18 +17,18 @@ const validationSchema = yup.object({
 const CreateLink = () => {
   const router = useRouter();
 
-  const [createFeed] = useMutation(CREATE_FEED_MUTATION, {
+  const [createPost] = useMutation(CREATE_FEED_MUTATION, {
     onCompleted: () => {
       showNotification({ message: "Link successfully created!" });
-      router.push("/");
+      router.replace("/");
     },
     onError: (err) => {
       showNotification({
         id: "hello-there",
         disallowClose: true,
         autoClose: 5000,
-        title: "Error",
-        message: err.message,
+        title: err.message,
+        message: "You have to login first",
         color: "red",
         styles: (theme) => ({
           root: {
@@ -46,6 +46,7 @@ const CreateLink = () => {
           },
         }),
       });
+      router.push("/login");
     },
   });
 
@@ -57,7 +58,7 @@ const CreateLink = () => {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       const { description, url } = values;
-      createFeed({ variables: { url, description } });
+      createPost({ variables: { url, description } });
     },
   });
 

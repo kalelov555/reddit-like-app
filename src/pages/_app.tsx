@@ -17,7 +17,6 @@ const httpLink = createHttpLink({
 const authLink = setContext((_, { headers }) => {
   // get the authentication token from cookies if it exists
   const token = Cookies.get("token");
-  console.log("token", token);
   // return the headers to the context so httpLink can read them
   return {
     headers: {

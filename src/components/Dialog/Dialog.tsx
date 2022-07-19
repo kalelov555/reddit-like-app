@@ -1,14 +1,16 @@
 import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import ListItemText from "@mui/material/ListItemText";
-import DialogTitle from "@mui/material/DialogTitle";
-import Dialog from "@mui/material/Dialog";
+import {
+  Avatar,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  DialogTitle,
+  Dialog,
+} from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import { blue } from "@mui/material/colors";
-import { Vote } from "typings/feedLink";
+import type { Vote } from "typings/post";
 
 export interface SimpleDialogProps {
   open: boolean;

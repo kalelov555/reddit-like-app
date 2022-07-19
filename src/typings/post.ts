@@ -1,6 +1,6 @@
 import { User } from "./user";
 
-export type FeedLink = {
+export type Post = {
   id?: string;
   description: string;
   url: string;
