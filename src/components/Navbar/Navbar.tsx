@@ -7,31 +7,37 @@ import {
   ListItemText,
   ListItemIcon,
 } from "@mui/material";
-import { ContentCut, ContentCopy, ContentPaste } from "@mui/icons-material";
+import { Home, Info, AddBox, Login } from "@mui/icons-material";
 import Cloud from "@mui/icons-material/Cloud";
 import Link from "next/link";
 
 export const Navbar = () => {
   return (
-    <Paper sx={{ width: 300, maxWidth: "100%", height: 180 }}>
+    <Paper sx={{ width: 300, maxWidth: "100%", height: 215 }}>
       <MenuList>
         <MenuItem>
           <ListItemIcon>
-            <ContentCut fontSize='small' />
+            <Home fontSize='small' />
           </ListItemIcon>
           <Link href='/'>Home</Link>
         </MenuItem>
         <MenuItem>
           <ListItemIcon>
-            <ContentCopy fontSize='small' />
+            <Info fontSize='small' />
           </ListItemIcon>
           <Link href='/about'>About</Link>
         </MenuItem>
         <MenuItem>
           <ListItemIcon>
-            <ContentPaste fontSize='small' />
+            <AddBox fontSize='small' />
           </ListItemIcon>
           <Link href='/links/new'>Create new Link</Link>
+        </MenuItem>
+        <MenuItem>
+          <ListItemIcon>
+            <Login fontSize='small' />
+          </ListItemIcon>
+          <Link href='/login'>Login</Link>
         </MenuItem>
         <Divider />
         <MenuItem>

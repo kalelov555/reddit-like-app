@@ -11,13 +11,19 @@ import Skeleton from "components/Skeleton/Skeleton";
 import type { Post } from "typings/post";
 
 const Home: NextPage = () => {
-  const [links, setLinks] = useState<Post[]>([]);
+  const [postsAndComments, setPostsAndComments] = useState<Post[]>([]);
   const { data, error, loading, refetch } = useQuery(GET_ALL_POSTS);
+  const posts = postsAndComments.filter(
+    //get description type by tag #comment#
+    (post) => post.description.substring(0, 9) !== "#comment#"
+  );
 
   useEffect(() => {
     refetch(data);
-    if (data) setLinks(data.feed.links);
-  }, [data, links, refetch, setLinks]);
+    if (data) {
+      setPostsAndComments(data.feed.links);
+    }
+  }, [data, postsAndComments, refetch, postsAndComments]);
 
   if (loading) {
     return (
@@ -32,9 +38,11 @@ const Home: NextPage = () => {
       </div>
     );
   }
+
   if (error) {
     return <h1>Error...</h1>;
   }
+
   return (
     <div className={styles.container}>
       <div className={styles.mainContainer}>
@@ -45,14 +53,15 @@ const Home: NextPage = () => {
         </Head>
 
         <Box sx={{ minWidth: 430 }}>
-          {links.map((link) => {
+          {posts.map((post) => {
             return (
               <FeedPost
-                key={link.description}
-                description={link.description}
-                url={link.url}
-                postedBy={link.postedBy}
-                votes={link.votes}
+                key={post.id}
+                description={post.description}
+                url={post.url}
+                postedBy={post.postedBy}
+                votes={post.votes}
+                id={post.id}
               />
             );
           })}
