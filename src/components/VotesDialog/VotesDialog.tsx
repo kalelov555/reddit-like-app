@@ -13,21 +13,21 @@ import { blue } from "@mui/material/colors";
 import type { Vote } from "typings/post";
 
 export interface SimpleDialogProps {
-  open: boolean;
+  openVotes: boolean;
   votes: Vote[];
-  onClose: () => void;
+  onVotesClose: () => void;
   description: string;
 }
 
-export const SimpleDialog = (props: SimpleDialogProps) => {
-  const { onClose, votes, open, description } = props;
+export const VotesDialog = (props: SimpleDialogProps) => {
+  const { onVotesClose, votes, openVotes, description } = props;
 
   const handleClose = () => {
-    onClose();
+    onVotesClose();
   };
 
   return (
-    <Dialog onClose={handleClose} open={open}>
+    <Dialog onClose={handleClose} open={openVotes}>
       <DialogTitle>Users who upvoted post:{description}</DialogTitle>
       <List sx={{ pt: 0 }}>
         {votes.map((vote) => (
