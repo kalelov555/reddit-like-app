@@ -10,24 +10,31 @@ import {
   Box,
 } from "@mui/material";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import { SimpleDialog } from "components/Dialog/Dialog";
+import { VotesDialog } from "components/VotesDialog/VotesDialog";
 import { Post } from "typings/post";
+import { CommentsDialog } from "components/CommentsDialog/CommentsDialog";
 
-export const FeedPost = ({ description, url, postedBy, votes }: Post) => {
-  const [open, setOpen] = useState(false);
+export const FeedPost = ({ id, description, url, postedBy, votes }: Post) => {
+  const [openVotes, setOpenVotes] = useState(false);
+  const [openComments, setOpenComments] = useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleCommentsOpen = () => {
+    setOpenComments(true);
   };
-
-  const handleClose = () => {
-    setOpen(false);
+  const handleCommentsClose = () => {
+    setOpenComments(false);
+  };
+  const handleVotesOpen = () => {
+    setOpenVotes(true);
+  };
+  const handleVotesClose = () => {
+    setOpenVotes(false);
   };
 
   return (
-    <Card variant='outlined'>
+    <Card variant='outlined' sx={{ my: 1 }}>
       <React.Fragment>
-        <CardContent onClick={handleClickOpen}>
+        <CardContent onClick={handleVotesOpen}>
           <Box
             sx={{
               display: "flex",
@@ -36,6 +43,7 @@ export const FeedPost = ({ description, url, postedBy, votes }: Post) => {
             color='text.secondary'
           >
             <Avatar alt='Remy Sharp' sx={{ width: 30, height: 30 }} />
+
             <Typography sx={{ fontSize: 15, px: 0.5, py: 1 }}>
               {postedBy.name}
             </Typography>
@@ -51,6 +59,7 @@ export const FeedPost = ({ description, url, postedBy, votes }: Post) => {
               {description}
             </a>
           </Typography>
+
           <Box sx={{ m: 1.5 }}>
             <Button
               variant='contained'
@@ -62,20 +71,41 @@ export const FeedPost = ({ description, url, postedBy, votes }: Post) => {
             >
               <ArrowUpwardIcon /> upvote
             </Button>
+
             <AvatarGroup total={votes?.length} max={4}>
               {votes.map((vote) => (
                 <Avatar key={vote.id} alt={vote.user.name} />
               ))}
             </AvatarGroup>
+
+            <Box sx={{ mt: 2, borderTop: "1px solid black" }}>
+              <Button
+                onClick={(event) => {
+                  event.stopPropagation();
+                  handleCommentsOpen();
+                }}
+              >
+                comments
+              </Button>
+            </Box>
           </Box>
         </CardContent>
       </React.Fragment>
 
-      <SimpleDialog
+      {/* Modal for Votes */}
+      <VotesDialog
         votes={votes}
-        open={open}
-        onClose={handleClose}
+        openVotes={openVotes}
+        onVotesClose={handleVotesClose}
         description={description}
+      />
+
+      {/* Modal for Comments */}
+      <CommentsDialog
+        openComments={openComments}
+        onCloseComments={handleCommentsClose}
+        postId={id}
+        postDescription={description}
       />
     </Card>
   );
