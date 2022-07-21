@@ -17,6 +17,7 @@ import { ApolloError, useMutation } from "@apollo/client";
 import { UPVOTE_POST } from "mutations/votes";
 import { GET_ALL_POSTS } from "query/posts";
 import { notifyError, notifySuccess } from "utils/notifications";
+import Cookies from "js-cookie";
 
 export const FeedPost = ({ id, description, url, postedBy, votes }: Post) => {
   const [upvotePost] = useMutation(UPVOTE_POST, {
@@ -78,13 +79,14 @@ export const FeedPost = ({ id, description, url, postedBy, votes }: Post) => {
               size='small'
               onClick={(event) => {
                 event.stopPropagation();
-                upvotePost({
-                  variables: {
-                    linkId: id,
-                  },
-
-                  refetchQueries: () => [{ query: GET_ALL_POSTS }],
-                });
+                Cookies.get("token")
+                  ? upvotePost({
+                      variables: {
+                        linkId: id,
+                      },
+                      refetchQueries: () => [{ query: GET_ALL_POSTS }],
+                    })
+                  : notifyError("Error", "You have to login first");
               }}
             >
               <ArrowUpwardIcon /> upvote
