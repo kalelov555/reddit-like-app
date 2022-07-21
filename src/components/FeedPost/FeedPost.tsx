@@ -13,8 +13,13 @@ import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import { VotesDialog } from "components/VotesDialog/VotesDialog";
 import { Post } from "typings/post";
 import { CommentsDialog } from "components/CommentsDialog/CommentsDialog";
+import { ApolloError, useMutation } from "@apollo/client";
+import { UPVOTE_POST } from "mutations/votes";
+import { GET_ALL_POSTS } from "query/posts";
+import { notifyError, notifySuccess } from "utils/notifications";
 
 export const FeedPost = ({ id, description, url, postedBy, votes }: Post) => {
+  const [upvotePost] = useMutation(UPVOTE_POST);
   const [openVotes, setOpenVotes] = useState(false);
   const [openComments, setOpenComments] = useState(false);
 
@@ -66,7 +71,18 @@ export const FeedPost = ({ id, description, url, postedBy, votes }: Post) => {
               size='small'
               onClick={(event) => {
                 event.stopPropagation();
-                alert("123");
+                upvotePost({
+                  variables: {
+                    linkId: id,
+                  },
+                  onCompleted: () => {
+                    notifySuccess("Successfully voted");
+                  },
+                  onError: (err: ApolloError) => {
+                    notifyError("Error", err.message);
+                  },
+                  refetchQueries: [GET_ALL_POSTS],
+                });
               }}
             >
               <ArrowUpwardIcon /> upvote
