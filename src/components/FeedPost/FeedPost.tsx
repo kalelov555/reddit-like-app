@@ -83,7 +83,7 @@ export const FeedPost = ({ id, description, url, postedBy, votes }: Post) => {
                     linkId: id,
                   },
 
-                  refetchQueries: [GET_ALL_POSTS],
+                  refetchQueries: () => [{ query: GET_ALL_POSTS }],
                 });
               }}
             >

@@ -39,7 +39,7 @@ const CreateLink = () => {
       const { description, url } = values;
       createPost({
         variables: { url, description },
-        refetchQueries: [GET_ALL_POSTS],
+        refetchQueries: () => [{ query: GET_ALL_POSTS }],
       });
     },
   });
