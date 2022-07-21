@@ -1,34 +1,25 @@
-import { ApolloQueryResult, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { Box } from "@mui/material";
 import { CREATE_COMMENT_MUTATION } from "mutations/comments";
 import { useState } from "react";
 import { Post } from "typings/post";
 import { Comments } from "../Comments/Comments";
 import { CommentPost } from "../CommentPost/CommentPost";
+import { GET_ALL_COMMENTS } from "query/comments";
 
 export type Props = {
   comments: Post[];
   postId: string;
-  refetch: (
-    variables?:
-      | Partial<{
-          filter: string;
-        }>
-      | undefined
-  ) => Promise<ApolloQueryResult<any>>;
-  data: any;
   postDescription: string;
 };
 
 export const CommentsContend = ({
   comments,
   postId,
-  refetch,
-  data,
   postDescription,
 }: Props) => {
   const [createCommentApi] = useMutation(CREATE_COMMENT_MUTATION, {
-    onCompleted: () => refetch(data),
+    refetchQueries: [GET_ALL_COMMENTS],
   });
 
   const [activeComment, setActiveComment] = useState("");

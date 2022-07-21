@@ -8,6 +8,7 @@ import { useMutation } from "@apollo/client";
 import { CREATE_FEED_MUTATION } from "mutations/posts";
 import { useRouter } from "next/router";
 import { notifyError, notifySuccess } from "utils/notifications";
+import { GET_ALL_POSTS } from "query/posts";
 
 const validationSchema = yup.object({
   url: yup.string().required("Url is required!"),
@@ -36,7 +37,10 @@ const CreateLink = () => {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       const { description, url } = values;
-      createPost({ variables: { url, description } });
+      createPost({
+        variables: { url, description },
+        refetchQueries: [GET_ALL_POSTS],
+      });
     },
   });
 

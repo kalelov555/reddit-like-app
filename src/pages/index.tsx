@@ -12,18 +12,17 @@ import type { Post } from "typings/post";
 
 const Home: NextPage = () => {
   const [postsAndComments, setPostsAndComments] = useState<Post[]>([]);
-  const { data, error, loading, refetch } = useQuery(GET_ALL_POSTS);
+  const { data, error, loading } = useQuery(GET_ALL_POSTS);
   const posts = postsAndComments.filter(
     //get description type by tag #comment#
     (post) => post.description.substring(0, 9) !== "#comment#"
   );
 
   useEffect(() => {
-    refetch(data);
     if (data) {
       setPostsAndComments(data.feed.links);
     }
-  }, [data, postsAndComments, refetch, postsAndComments]);
+  }, [data, postsAndComments, postsAndComments]);
 
   if (loading) {
     return (

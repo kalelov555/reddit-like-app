@@ -31,7 +31,7 @@ export const CommentsDialog = ({
   postDescription,
 }: Props) => {
   const [comments, setComments] = useState<Post[]>([]);
-  const { data, error, loading, refetch } = useQuery(GET_ALL_COMMENTS, {
+  const { data, error, loading } = useQuery(GET_ALL_COMMENTS, {
     variables: { filter: "#comment#   " },
   });
 
@@ -65,8 +65,6 @@ export const CommentsDialog = ({
         comments={comments}
         postId={postId}
         postDescription={postDescription}
-        refetch={refetch}
-        data={data}
       />
     </Dialog>
   );

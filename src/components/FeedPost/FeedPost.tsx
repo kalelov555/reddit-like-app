@@ -19,7 +19,14 @@ import { GET_ALL_POSTS } from "query/posts";
 import { notifyError, notifySuccess } from "utils/notifications";
 
 export const FeedPost = ({ id, description, url, postedBy, votes }: Post) => {
-  const [upvotePost] = useMutation(UPVOTE_POST);
+  const [upvotePost] = useMutation(UPVOTE_POST, {
+    onCompleted: () => {
+      notifySuccess("Successfully voted");
+    },
+    onError: (err: ApolloError) => {
+      notifyError("Error", err.message);
+    },
+  });
   const [openVotes, setOpenVotes] = useState(false);
   const [openComments, setOpenComments] = useState(false);
 
@@ -75,12 +82,7 @@ export const FeedPost = ({ id, description, url, postedBy, votes }: Post) => {
                   variables: {
                     linkId: id,
                   },
-                  onCompleted: () => {
-                    notifySuccess("Successfully voted");
-                  },
-                  onError: (err: ApolloError) => {
-                    notifyError("Error", err.message);
-                  },
+
                   refetchQueries: [GET_ALL_POSTS],
                 });
               }}
