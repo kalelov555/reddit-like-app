@@ -55,12 +55,17 @@ export default function SignInSide() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    login({
-      variables: {
-        email: data.get("email"),
-        password: data.get("password"),
-      },
-    });
+    const email = data.get("email");
+    const password = data.get("password");
+
+    email && password
+      ? login({
+          variables: {
+            email: data.get("email"),
+            password: data.get("password"),
+          },
+        })
+      : notifyError("Login Error", "Fill out all form values");
   };
 
   return (
