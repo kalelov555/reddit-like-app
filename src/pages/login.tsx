@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
-import { showNotification } from "@mantine/notifications";
+import { notifyError } from "utils/notifications";
 
 function Copyright(props: any) {
   return (
@@ -48,29 +48,7 @@ export default function SignInSide() {
       router.push("/");
     },
     onError: (err) => {
-      showNotification({
-        id: "hello-there",
-        disallowClose: true,
-        autoClose: 5000,
-        title: "Authentication error",
-        message: err.message,
-        color: "red",
-        styles: (theme) => ({
-          root: {
-            backgroundColor: theme.colors.red[6],
-            borderColor: theme.colors.red[6],
-
-            "&::before": { backgroundColor: theme.white },
-          },
-
-          title: { color: theme.white },
-          description: { color: theme.white },
-          closeButton: {
-            color: theme.white,
-            "&:hover": { backgroundColor: theme.colors.blue[7] },
-          },
-        }),
-      });
+      notifyError("Error", err.message);
     },
   });
 

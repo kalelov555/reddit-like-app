@@ -16,7 +16,7 @@ import { useMutation } from "@apollo/client";
 import { SIGNUP_MUTATION } from "mutations/user";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
-import { showNotification } from "@mantine/notifications";
+import { notifyError } from "utils/notifications";
 
 function Copyright(props: any) {
   return (
@@ -61,11 +61,7 @@ export default function SignUp() {
             password: data.get("password"),
           },
         })
-      : showNotification({
-          title: "Registration Error",
-          message: "Fill out all form values!",
-          color: "red",
-        });
+      : notifyError("Registration Error", "Fill out all form values!");
   };
 
   return (

@@ -6,8 +6,8 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { useMutation } from "@apollo/client";
 import { CREATE_FEED_MUTATION } from "mutations/posts";
-import { showNotification } from "@mantine/notifications";
 import { useRouter } from "next/router";
+import { notifyError, notifySuccess } from "utils/notifications";
 
 const validationSchema = yup.object({
   url: yup.string().required("Url is required!"),
@@ -19,34 +19,12 @@ const CreateLink = () => {
 
   const [createPost] = useMutation(CREATE_FEED_MUTATION, {
     onCompleted: () => {
-      showNotification({ message: "Link successfully created!" });
+      notifySuccess("Link successfully created!");
       router.replace("/");
     },
     onError: (err) => {
-      showNotification({
-        id: "hello-there",
-        disallowClose: true,
-        autoClose: 5000,
-        title: err.message,
-        message: "You have to login first",
-        color: "red",
-        styles: (theme) => ({
-          root: {
-            backgroundColor: theme.colors.red[6],
-            borderColor: theme.colors.red[6],
-
-            "&::before": { backgroundColor: theme.white },
-          },
-
-          title: { color: theme.white },
-          description: { color: theme.white },
-          closeButton: {
-            color: theme.white,
-            "&:hover": { backgroundColor: theme.colors.blue[7] },
-          },
-        }),
-      });
-      router.push("/login");
+      notifyError(err.message, "You have to login first");
+      router.replace("/login");
     },
   });
 
