@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 export const GET_ALL_POSTS = gql`
   query {
-    feed {
+    feed(orderBy: { createdAt: desc }) {
       count
       links {
         id
