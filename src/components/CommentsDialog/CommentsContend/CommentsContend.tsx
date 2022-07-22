@@ -19,9 +19,7 @@ export const CommentsContend = ({
   postDescription,
 }: Props) => {
   const [createCommentApi] = useMutation(CREATE_COMMENT_MUTATION, {
-    refetchQueries: () => [
-      { query: GET_ALL_COMMENTS, variables: { filter: "#comment#   " } },
-    ],
+    refetchQueries: () => [{ query: GET_ALL_COMMENTS }],
   });
 
   const [activeComment, setActiveComment] = useState("");

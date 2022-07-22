@@ -31,9 +31,7 @@ export const CommentsDialog = ({
   postDescription,
 }: Props) => {
   const [comments, setComments] = useState<Post[]>([]);
-  const { data, error, loading } = useQuery(GET_ALL_COMMENTS, {
-    variables: { filter: "#comment#   " },
-  });
+  const { data, error, loading } = useQuery(GET_ALL_COMMENTS);
 
   useEffect(() => {
     if (data) {
